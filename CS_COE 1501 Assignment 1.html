@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <style type="text/css">
+  div#content {
+    width:  50em;
+    margin: auto;
+    background-color:  #dddddd;
+    padding: 0.5em;
+  }
+  div.code {
+    width:  95%;
+    margin: auto;
+    background-color:  #000000;
+    color:  #bbbbbb;
+    padding: 0.5em;
+  }
+  table,tr,td{
+    border: 3px solid black;
+	border-collapse: collapse;
+	padding: 3px;
+	align: center;
+  }
+  table{
+  	margin: 0 auto;
+  }
+  </style>
+  <title>CS/COE 1501 Assignment 1</title>
+</head>
+
+<body>
+  <h1 style="text-align: center;">
+    Assignment 1
+  </h1>
+  <h2 style="text-align:  center;">
+    Posted:  Wednesday Sept. 3, 2014
+  </h2>
+
+  <div id="content">
+    <h3>Goal:</h3>
+    <p>
+		To demonstrate knowledge of both exhaustive search of a problem space 
+and lookup search through the implementation of a modified version of 
+the game Boggle.
+	</p>
+
+	<h3>Background:</h3>
+	<p>
+		Given a 4x4 grid of letters, Boggle is played by having users identify
+ as many valid English words of at least three characters that can be 
+made by joining adjacent letters on the boggle board.
+		Adjacent letters can be found horizontally, vertically, or diagonally 
+next to one another.
+		Note that the same space the grid cannot be used twice in a given 
+word.
+	</p>
+	
+	<p>
+		Consider the following board:
+	</p>
+
+	<span style="align:center;">
+	<table>
+		<tbody><tr>
+			<td>F</td>
+			<td>R</td>
+			<td>O</td>
+			<td>O</td>
+		</tr>
+		<tr>
+			<td>Y</td>
+			<td>I</td>
+			<td>E</td>
+			<td>S</td>
+		</tr>
+		<tr>
+			<td>L</td>
+			<td>D</td>
+			<td>N</td>
+			<td>T</td>
+		</tr>
+		<tr>
+			<td>A</td>
+			<td>E</td>
+			<td>R</td>
+			<td>E</td>
+		</tr>
+	</tbody></table>
+	</span>
+
+	<p>
+		FRIEND, ROSTER, and FROST are all valid words.
+		DEAD is not a valid word as you would need to use the same D twice to construct it.
+	</p>
+	
+	<p>
+		For this assignment, we will consider a modified version of Boggle where wildcard characters are allowed.
+		The "*" character will be considered a wildcard and can be considered any letter of the alphabet when constructing words.
+		For example, in the following board:
+	</p>
+	
+	<table border="1">
+		<tbody><tr>
+			<td>F</td>
+			<td>R</td>
+			<td>O</td>
+			<td>O</td>
+		</tr>
+		<tr>
+			<td>Y</td>
+			<td>I</td>
+			<td>E</td>
+			<td>S</td>
+		</tr>
+		<tr>
+			<td>L</td>
+			<td>*</td>
+			<td>N</td>
+			<td>T</td>
+		</tr>
+		<tr>
+			<td>A</td>
+			<td>E</td>
+			<td>R</td>
+			<td>E</td>
+		</tr>
+	</tbody></table>
+
+	<p>
+		RIVER, RING, and TRAIL are all valid words where they would not have been in the previous puzzle.
+	</p>
+
+	<h3>Specifications:</h3>
+    <ol>
+      <li>
+	  	Your Boggle implementation should present the user with a board and 
+prompt the user to enter as many words as they can find in that board.
+		For each word entered, you should inform the user whether or not the 
+word they entered was valid.
+		Once the user indicates that they have finished entering words, your 
+game should do the following:
+		<ol>
+			<br>
+			<li>
+				Print out all of the possible words for the board in alphabetical order.
+			</li>
+			<br>
+			<li>
+				Show the user the list of valid words he/she correctly guessed.
+			</li>
+			<br>
+			<li>
+				Show the user the number of valid words that he/she correctly guessed.
+			</li>
+			<br>
+			<li>
+				Show the user the number of possible words for the board.
+			</li>
+			<br>
+			<li>
+				Show the user the percentage of possible words that he/she correctly guessed.
+			</li>
+		</ol>
+      </li>
+      <br>
+
+	  <li>
+	  	The flow of your program should be as follows:
+		<ol>
+			<br>
+			<li>
+				When the program is run, any needed command line arguments should be
+ parsed and interpereted, setting flags for the running of the game as 
+needed.
+			</li>
+			<br>
+
+			<li>
+				Your program should load the appropriate board from a file.
+			</li>
+			<br>
+
+			<li>
+				Your program should load a cannonical dictionary for the game that will be used to determine valid words.
+			</li>
+			<br>
+
+			<li>
+				Your program should then compile a list of all valid words in the current board.
+			</li>
+			<br>
+
+			<li>
+				Your program should allow the user to play the game as described above.
+			</li>
+			<br>
+		</ol>
+	  </li>
+	  <br>
+	  
+      <li>
+	  	To compile the list of valid words on the board, you must design and
+ implement and algorithm to exhaustively find all of the words in the 
+board using <em>recursion</em> and <em>backtracking</em>.
+		Your algorithm must find all possible words for each board while not 
+wasting time construcing invalid words (i.e., prune search paths that 
+are not the prefix of a valid word as discussed in lecture).
+		This algorithm is a key portion of the project, and its overall 
+efficiency will constribute to your grade.
+      </li>
+      <br>
+
+	  <li>
+	  	Use the dictionary provided <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/dictionary.txt">here</a> as the cannonical dictionary for determining valid words/prefixes.
+		Each word in this dictionary is stored on a separate line.
+		Your game must parse this file and load it into a dictionary class that implements <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/DictionaryInterface.java">DictionaryInterface</a>.
+		An simple implementation is provided for you as <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/SimpleDictionary.java">SimpleDictionary.java</a>.
+      </li>
+      <br>
+
+	  <li>
+	  	As each word is discovered by your exhaustive algorithm, you must 
+insert it into a second instantiation of a class implementing 
+DictionaryInterface (e.g., another SimpleDictionary instantiation) so 
+that when the user begins guessing words, this second object can be 
+queried to determine whether or not the guessed word is valid.
+      </li>
+      <br>
+
+	  <li>
+	  	You must write a second DictionaryInterface implementation that 
+stores the list of words using the De La Briandais trie structure 
+described in lecture.
+	  </li>
+	  <br>
+
+	  <li>
+	  	The use of either the SimpleDictionary implementation of the De La 
+Briandais trie should be determined through a command line argument to 
+your program.
+		If the argument "-d simple" is passed to your program (i.e., "java 
+MyBoggle -d simple"), it should use the SimpleDictionary implementation 
+for storing words from the provided cannonical dictionary as well as the
+ words that will be found in exploring the board.
+		If the argument "-d dlb" is passed to your program (i.e., "java 
+MyBoggle -d dlb"), it should use your De La Briandais trie 
+implementation for storing words from the provided cannonical dictionary
+ as well as the words that will be found in exploring the board.
+		Your program should default to the use of the the SimpleDictionary 
+impelementation if no argument is given.
+      </li>
+      <br>
+
+	  <li>
+	  	The filename storing the board to be played should also gleaned via 
+command line argument.
+		If the argument "-b board3.txt" is passed to your program (i.e., "java
+ MyBoggle -b board3.txt"), it should open the file board3.txt stored in 
+the same directory as your program and display the board stored within.
+		Several sample boards are provided for you (<a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board1.txt">1</a>, <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board2.txt">2</a>, <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board3.txt">3</a>, <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board4.txt">4</a>, <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board5.txt">5</a>, <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board6.txt">6</a>).
+		Each of these file constains a single line with 16 characters on it.
+		The first 4 characters represent the first row of the board, the next 4 the second row of the board and so on.
+		<a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board1.txt">board1</a>, for example, should display the first example board shown on this page, while <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/board2.txt">board2</a> should display the second.		
+      </li>
+      <br>
+	  
+      <li>
+		Both a dictionary and a board should be able to be specified via the 
+command line for a single run of your program, (e.g., "java MyBoggle -d 
+dlb -b board2.txt").
+		The relative order of the two arguments should not matter, (i.e., 
+"java MyBoggle -d dlb -b board2.txt" and "java MyBoggle -b board2.txt -d
+ dlb" should both present the board stored in board2.txt to the user and
+ use a De La Briandais trie implemention of DictionaryInterface for word
+ storage).
+	  </li>
+    </ol>
+
+    <h3>Due:  11:59 PM Sept. 21, 2014</h3>
+    Late submissions must be submitted by 11:59 PM Sept. 23, 2014.
+    <br>
+    Assignments can not be submitted past Sept. 23, 2014.  Hence, not 
+submitting an assignment by the late due date will result in a grade of <strong>0</strong>.
+
+    <h3>Submission Guidelines:</h3>
+    <ol>
+      <li>
+	  	<em>DO NOT SUBMIT</em> any IDE package files or the the dictionary 
+world list file (dictionary.txt).
+		You should only submit your .java files (including 
+DictionaryInterface.java and SimpleDictionary.java) and the board .txt 
+files.
+      </li>
+      <br>
+
+	  <li>
+	  	You must name the primary driver for your game MyBoggle.java.
+		You must be able to compile your game by running "javac MyBoggle.java".
+		You must be able to run your game by running "java MyBoggle".
+	  </li>
+	  <br>
+
+      <li>
+        You must fill out and include a copy of the <a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/README">assignment information sheet</a> in your repository.
+        This file must be named "README".
+      </li>
+      <br>
+
+      <li>
+	    <p>
+	  	You must compress all of your files into a single .zip.
+		Please name your submission .zip "cs1501_a1_&lt;YOUR PITT ID&gt;.zip" (e.g., I would name a submission "cs1501_a1_nlf4.zip"
+		Your submission must be placed on AFS in your submission directory.
+		Submission directories can be found at the following path:
+		</p>
+		
+        <div class="code">
+        <code>
+		/afs/pitt.edu/home/n/l/nlf4/submissions/cs1501/&lt;YOUR LECTURE SECTION&gt;/&lt;YOUR PITT ID&gt;/a1/
+		</code>
+        </div>
+
+		<p>
+		Where &lt;YOUR LECTURE SECTION&gt; is either "MW_night", "TH_morning",
+ or "TH_afternoon", depending on when you attend lecture.
+		You can access the submission directory on AFS via <code>unixs.cis.pitt.edu</code>.
+		From a Mac or Linux terminal, you can use the <em>scp</em> command to submit via <code>unixs.cis.pitt.edu</code>.
+		For example, assuming I attended lecture MW6-7:15, I would submit an assignment using scp as follows:
+		</p>
+		
+        <div class="code">
+        <code>
+		scp cs1501_a1_nlf4.zip nlf4@unixs.cis.pitt.edu:/afs/pitt.edu/home/n/l/nlf4/submissions/cs1501/MW_night/nlf4/a1/
+		</code>
+        </div>
+
+		<p>
+		Please note that the above snippet is a single line and a single command even if your browser splits it into two.
+		</p>
+
+		<p>
+		From Windows, I recommend using <a href="http://winscp.net/eng/index.php">WinSCP</a> to connect to <code>unixs.cis.pitt.edu</code> and copy your submission to the appropriate AFS directory.
+		</p>
+
+		<p>
+		If you wish to ensure that your .zip copied over correctly, you can use SSH to connect the <code>unixs.cis.pitt.edu</code>, navigate to the appropriate directory, and ensure that your zip resides there.
+		From a Mac or Linux terminal, you can simply use the <em>ssh</em> command.
+		I, for example, could check my example submission above as follows:
+		</p>
+		
+        <div class="code">
+        <code>
+		ssh nlf4@unixs.cis.pitt.edu
+		<br>
+		cd /afs/pitt.edu/home/n/l/nlf4/submissions/cs1501/MW_night/nlf4/a1/
+		<br>
+		ls -la
+		</code>
+        </div>
+
+		<p>
+		From Windows, I recommend using <a href="http://www.chiark.greenend.org.uk/%7Esgtatham/putty/">PuTTY</a> to SSH to <code>unixs.cis.pitt.edu</code>.
+		</p>
+		
+		<p>
+		The <code>ls -la</code> command should display your file name and the timestamp recorded for your submission on the server.
+		</p>
+
+		<p>
+		Note that you only have permission to create new files in your 
+submission directory.
+		Please be sure to submit the final version of your code.
+		In the case that you absolutely must submit an updated version of your
+ code, be sure to use a different file name and contact your TA to 
+inform them of which version should be graded.
+		</p>
+      </li>
+      <br>
+
+	</ol>
+
+    <h3>Additional Notes/Hints:</h3>
+    <ul>
+      <li>
+	  	Note that the boards are specified with upper-case letters while the dictionary is made up of lower case words.
+		Your submission should operate in a case-insensitive manner.
+      </li>
+	  <br>
+
+	  <li>
+	    A driver program is provided to test your dictionary (<a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/DictTest.java">here</a>) as well as sample output (<a href="http://people.cs.pitt.edu/%7Enlf4/cs1501/assignments/a1/dictTestOut.txt">here</a>).
+		You can use them to test your implementation of DictionaryInterface.
+	  </li>
+	  <br>
+
+	  <li>
+	  	Do not modify the board files, DictionaryInterface.java, or SimpleDictionary.java.
+	  </li>
+	  <br>
+	  
+	  <li>
+		Your program should read in a single line of 16 characters for the 
+board (all boards will be 4x4) and then split that line into the four 
+rows of the board.
+		Your program should use DictionaryInterface to implement a DLB trie 
+class, and then allow either the DLB class or SimpleDictionary class to 
+be used during the game (depending on the command line arguments given).
+	  </li>
+	  <br>
+
+	  <li>
+	  	Your DLB trie implementation should <strong>not</strong> used Java's ArrayList class for implementing the linked list.
+	  </li>
+    </ul>
+
+  </div>
+
+
+
+</body></html>
